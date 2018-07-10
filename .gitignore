@@ -11,3 +11,13 @@ perf/tmp-*-cases
 sandbox/*.html
 __pycache__
 .tox
+
+\.idea/
+
+bin/
+
+lib/python3\.6/
+
+include/
+
+\.Python

@@ -296,6 +296,8 @@ class Markdown(object):
     # same with _a_nofollow
     _a_blank = _a_nofollow
 
+    _email_replace = re.compile(r"([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)")
+
     def convert(self, text):
         """Convert the given text."""
         # Main function. The order in which other subs are called here is
@@ -390,6 +392,9 @@ class Markdown(object):
 
         if "nofollow" in self.extras:
             text = self._a_nofollow.sub(r'<\1 rel="nofollow"\2', text)
+
+        if "replace_email_by_button" in self.extras:
+            text = self._email_replace.sub(r'<button class="email_replacement">Jetzt bewerben</button>', text)
 
         if "target-blank-links" in self.extras:
             text = self._a_blank.sub(r'<\1 target="_blank"\2', text)
