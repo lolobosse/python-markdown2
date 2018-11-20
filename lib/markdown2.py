@@ -298,6 +298,10 @@ class Markdown(object):
 
     _email_replace = re.compile(r"([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)")
 
+    _link_replace = re.compile(r"""<a[\s]+([^>]+)>((?:.(?!\<\/a\>))*.)<\/a>""", re.IGNORECASE | re.VERBOSE)
+    _url_replace = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+',
+                              re.MULTILINE)
+
     def convert(self, text):
         """Convert the given text."""
         # Main function. The order in which other subs are called here is
@@ -395,6 +399,10 @@ class Markdown(object):
 
         if "replace_email_by_button" in self.extras:
             text = self._email_replace.sub(r'<button class="email_replacement">Jetzt bewerben</button>', text)
+
+        if "replace_link_by_button" in self.extras:
+            text = self._link_replace.sub('<button class="email_replacement">Jetzt bewerben</button>', text)
+            text = self._url_replace.sub('<button class="email_replacement">Jetzt bewerben</button>', text)
 
         if "target-blank-links" in self.extras:
             text = self._a_blank.sub(r'<\1 target="_blank"\2', text)
